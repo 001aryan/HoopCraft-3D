@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HoopCraft 3D — Interactive Basketball Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <div class="noise-overlay"></div>
+
+  <!-- Global liquid-glass SVG distortion filter -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <filter id="lg-distort" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.004 0.008" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="35" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- NAVBAR — floating pill -->
+  <nav class="navbar" id="navbar">
+    <span class="nav-logo">HoopCraft 3D</span>
+    <div class="nav-links">
+      <a href="#hero-section" class="nav-link">Courts</a>
+      <a href="#stats-section" class="nav-link">Standings</a>
+      <a href="#how-section" class="nav-link">How to Play</a>
+      <a href="#site-footer" class="nav-link">About</a>
+    </div>
+    <button class="profile-btn glass-pill">
+      <span class="pulse-dot"></span> My Court
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       HERO SECTION
+  ══════════════════════════════════════ -->
+  <section class="section hero-section" id="hero-section">
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Product Hunt badge removed -->
+
+    <!-- Event card — 3-layer liquid glass (bend / face / edge) -->
+    <div class="event-card" id="event-card">
+      <!-- Layer 1: backdrop blur + SVG distortion -->
+      <div class="ec-bend"></div>
+      <!-- Layer 2: outer glow -->
+      <div class="ec-face"></div>
+      <!-- Layer 3: inset edge highlights + tint -->
+      <div class="ec-edge"></div>
+
+      <!-- Content -->
+      <div class="ec-content">
+        <!-- Photo with overlay pills + title -->
+        <div class="ec-image">
+              <!-- User-provided event photo (placed at public/event-photo.png) -->
+              <img src="/event-photo.png" alt="Basketball on court" />
+          <div class="ec-img-shade"></div>
+          <div class="ec-img-top">
+            <span class="ec-time-pill">12 min from</span>
+            <span class="ec-home-pill"><span class="home-dot"></span>Home</span>
+          </div>
+          <div class="ec-img-bottom">
+            <h3 class="ec-title">Pickup at Riverside</h3>
+            <p class="ec-date">June 20, 7:00 PM</p>
+          </div>
+        </div>
+
+        <!-- Organizer row with avatars on right -->
+        <div class="ec-organizer">
+          <div class="org-av grad-1"></div>
+          <div class="org-info">
+            <span class="org-name">Jordan Reyes</span>
+            <span class="org-role">host</span>
+          </div>
+          <div class="ec-players">
+            <div class="av-stack">
+              <div class="mini-av grad-2"></div>
+              <div class="mini-av grad-3"></div>
+              <div class="mini-av grad-4"></div>
+            </div>
+            <span class="plus-badge">+3</span>
+          </div>
+        </div>
+
+        <!-- Venue -->
+        <div class="ec-venue">
+          <span class="venue-name">Riverside Court</span>
+          <span class="venue-addr">89 River St,<br>Brooklyn, NY</span>
+        </div>
+
+        <!-- Buttons -->
+        <button class="ec-btn ghost-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Check on map
+        </button>
+        <button class="ec-btn dark-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Join game
+        </button>
+        <p class="ec-free">✓ Free event</p>
+      </div>
+    </div>
+
+    <!-- Hero text -->
+    <div class="hero-text" id="hero-text">
+      <span class="hero-eyebrow">PICKUP TONIGHT</span>
+      <h1 class="hero-headline">
+        <span class="hl-line">Dribble.</span>
+        <span class="hl-line">Drive.</span>
+        <span class="hl-line">Dominate.</span>
+      </h1>
+      <p class="hero-brand">HoopCraft 3D</p>
+      <div class="hero-pricing glass-pill">
+        <span class="price-amount">Free</span>
+        <span class="price-sep">/</span>
+        <span class="price-label">Drop In</span>
+        <button class="price-cta">Sign Up →</button>
+      </div>
+    </div>
+
+    <!-- Signature -->
+    <div class="signature-wrap" id="sig-wrap">
+      <svg class="sig-svg" viewBox="0 0 160 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 45 C20 10, 35 50, 50 20 C65 -10, 70 55, 90 30 C110 5, 120 50, 140 35 C150 28, 155 38, 150 45"
+              stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="sp1"/>
+        <path d="M85 30 C95 25, 105 40, 100 48"
+              stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round" class="sp2"/>
+        <path d="M10 48 C30 46, 50 50, 70 47"
+              stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" class="sp3"/>
+      </svg>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+    <div class="drag-hint">↔ Drag to spin</div>
+    
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 2 — STATS + LEADERBOARD
+  ══════════════════════════════════════ -->
+  <section class="section stats-section" id="stats-section">
+    <div class="stats-bg-text">STAT</div>
+
+    <div class="stats-left">
+      <span class="section-eyebrow">By The Numbers</span>
+      <h2 class="section-headline">COURT<br>STATS</h2>
+      <p class="section-body">From neighborhood hoops to late-night pickup, players are dropping in and competing worldwide.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card glass-card">
+          <span class="stat-num">24K+</span>
+          <span class="stat-label">Active Players</span>
+          <span class="stat-delta up">↑ +12% this month</span>
+        </div>
+        <div class="stat-card glass-card">
+          <span class="stat-num">840</span>
+          <span class="stat-label">Games This Week</span>
+          <span class="stat-delta up">↑ +8% vs last week</span>
+        </div>
+        <div class="stat-card glass-card">
+          <span class="stat-num">62</span>
+          <span class="stat-label">Cities Worldwide</span>
+          <span class="stat-delta neutral">→ 5 new this quarter</span>
+        </div>
+        <div class="stat-card glass-card">
+          <span class="stat-num">4.9★</span>
+          <span class="stat-label">Avg Game Rating</span>
+          <span class="stat-delta up">↑ Consistent</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 3 — HOW IT WORKS
+  ══════════════════════════════════════ -->
+  <section class="section how-section" id="how-section">
+    <div class="how-bg-text">PLAY</div>
+    <div class="how-ball-zone" id="how-ball-zone"></div>
+    <div class="how-content">
+      <span class="section-eyebrow">HOW IT WORKS</span>
+      <h2 class="section-headline">THREE STEPS<br>TO TIP-OFF</h2>
+      <div class="steps-list">
+        <div class="step-item glass-card" id="step-1">
+          <div class="step-number">01</div>
+          <div class="step-info">
+            <h3 class="step-title">Find a Court</h3>
+            <p class="step-desc">Browse live and upcoming pickup games near you. Filter by skill, location, or time slot.</p>
+          </div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="step-item glass-card" id="step-2">
+          <div class="step-number">02</div>
+          <div class="step-info">
+            <h3 class="step-title">Warm Up & Join</h3>
+            <p class="step-desc">Join a game or start one—set rules, capacity, and skill level in seconds.</p>
+          </div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="step-item glass-card" id="step-3">
+          <div class="step-number">03</div>
+          <div class="step-info">
+            <h3 class="step-title">Play & Earn Rep</h3>
+            <p class="step-desc">Compete, earn points, climb leaderboards and build your pickup reputation.</p>
+          </div>
+          <div class="step-arrow">→</div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button class="cta-main-btn">Get on the Court →</button>
+        <!-- Product Hunt embed removed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="site-footer" id="site-footer">
+    <div class="footer-bg-ball"></div>
+    <div class="footer-inner">
+      <div class="footer-top">
+          <div class="footer-brand">
+          <div class="footer-logo">HoopCraft 3D</div>
+          <p class="footer-tagline">The world's biggest<br>pickup basketball network.</p>
+          <div class="footer-socials">
+              <a href="#" class="social-pill glass-pill">Twitter</a>
+              <a href="#" class="social-pill glass-pill">Instagram</a>
+              <a href="#" class="social-pill glass-pill">TikTok</a>
+          </div>
+        </div>
+
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <span class="footer-col-title">Product</span>
+            <a href="#" class="footer-link">Find Games</a>
+            <a href="#" class="footer-link">Leaderboard</a>
+            <a href="#" class="footer-link">Court Map</a>
+            <a href="#" class="footer-link">Create Event</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Community</span>
+            <a href="#" class="footer-link">Players</a>
+            <a href="#" class="footer-link">Teams</a>
+            <a href="#" class="footer-link">Tournaments</a>
+            <a href="#" class="footer-link">Rankings</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Company</span>
+            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link">Blog</a>
+            <a href="#" class="footer-link">Press Kit</a>
+            <a href="#" class="footer-link">Contact</a>
+          </div>
+        </div>
+
+        <div class="footer-newsletter">
+          <span class="newsletter-title">Stay in the game</span>
+          <p class="newsletter-desc">Drop your email to get alerts for local pickup games and tournaments.</p>
+          <div class="newsletter-input-row">
+            <input type="email" placeholder="you@court.co" class="newsletter-input"/>
+            <button class="newsletter-btn">→</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span class="footer-copy">© 2026 HoopCraft 3D. All rights reserved.</span>
+          <div class="footer-legal">
+            <a href="#" class="legal-link">Privacy</a>
+            <span class="sep">·</span>
+            <a href="#" class="legal-link">Terms</a>
+            <span class="sep">·</span>
+            <a href="#" class="legal-link">Cookies</a>
+          </div>
+        </div>
+          <div class="footer-ph-badge">
+          <span>Featured Game</span>
+        </div>
+        <div class="footer-cities">
+          <span class="cities-label">COURTS ACTIVE IN</span>
+          <div class="cities-scroll">
+            <span>NYC · LA · CHI · ATL · MIA · HOU · BOS · PHI · POR · DAL ·&nbsp;</span>
+            <span aria-hidden="true">NYC · LA · CHI · ATL · MIA · HOU · BOS · PHI · POR · DAL ·&nbsp;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
