@@ -105,8 +105,6 @@ Experience HoopCraft 3D live:
 **🔗 Live Website:**
 https://hoop-craft-3-d.vercel.app/
 
-> Replace the URL above with your deployed Vercel project link.
-
 ---
 
 ## 🚀 Deployment
